@@ -5,10 +5,12 @@ class SlabProjectTasksController < ApplicationController
   # GET /slab_project_tasks or /slab_project_tasks.json
   def index
     @slab_project_tasks = SlabProjectTask.all
+    render :json => @slab_project_tasks.to_json(:include => :slab_project)
   end
 
   # GET /slab_project_tasks/1 or /slab_project_tasks/1.json
   def show
+    render :json => @slab_project_task
   end
 
   # GET /slab_project_tasks/new
@@ -62,6 +64,7 @@ class SlabProjectTasksController < ApplicationController
   end
 
   def complete
+    raise "A"
     @slab_project_task.status = "Done"
     if @slab_project_task.save
       render :json => {message: "Ok completed"}
@@ -69,15 +72,15 @@ class SlabProjectTasksController < ApplicationController
       render :json => { errors: "Could save task id #{params[:id]}" }
     end
   rescue
-    render :json => { errors: "An error ocurred while procesing your request" }
+    render :json => { errors: "An error ocurred while procesing your request" }, status: :bad_request
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_slab_project_task      
       @slab_project_task = SlabProjectTask.find(params[:id])
-      rescue 
-      render :json => {errors: ["No id #{params[:id]}"]}
+    rescue 
+      render :json => {errors: ["No Task for id #{params[:id]}"]}
     end
 
     # Only allow a list of trusted parameters through.

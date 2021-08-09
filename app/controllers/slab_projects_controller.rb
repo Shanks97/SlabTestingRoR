@@ -5,10 +5,12 @@ class SlabProjectsController < ApplicationController
   # GET /slab_projects or /slab_projects.json
   def index
     @slab_projects = SlabProject.all
+    render :json => @slab_projects.to_json(:include => :slab_project_task)
   end
 
   # GET /slab_projects/1 or /slab_projects/1.json
   def show
+    render :json => @slab_project
   end
 
   # GET /slab_projects/new
@@ -26,8 +28,11 @@ class SlabProjectsController < ApplicationController
 
     respond_to do |format|
       if @slab_project.save
+        SlabMailer.with(project: @slab_project).project_created.deliver_later
+
         format.html { redirect_to @slab_project, notice: "Slab project was successfully created." }
         format.json { render :show, status: :created, location: @slab_project }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @slab_project.errors, status: :unprocessable_entity }
@@ -65,6 +70,7 @@ class SlabProjectsController < ApplicationController
       else
         @slab_project.status = "Done"
         if @slab_project.save
+          
           render :json => { message: "Completed" }
         else
           render :json => { message: "Error ocurred during completition" }
@@ -74,13 +80,15 @@ class SlabProjectsController < ApplicationController
       render :json => { errors: ["The project has not tasks"] }
     end
   rescue
-    render :json => { message: "Error ocurred during completition" }
+    render :json => { message: "Error ocurred during completition" }, status: :bad_request
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_slab_project
       @slab_project = SlabProject.find(params[:id])
+    rescue
+      render :json => {errors: ["No slab project with id #{params[:id]}"]}
     end
 
     # Only allow a list of trusted parameters through.
