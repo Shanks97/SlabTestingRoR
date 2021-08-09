@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @slab_project.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @slab_project.description %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @slab_project.status %>
+</p>
+
+<p>
+  <strong>Start at:</strong>
+  <%= @slab_project.start_at %>
+</p>
+
+<p>
+  <strong>Finish at:</strong>
+  <%= @slab_project.finish_at %>
+</p>
+
+<p>
+  <strong>Finished at:</strong>
+  <%= @slab_project.finished_at %>
+</p>
+
+<%= link_to 'Edit', edit_slab_project_path(@slab_project) %> |
+<%= link_to 'Back', slab_projects_path %>

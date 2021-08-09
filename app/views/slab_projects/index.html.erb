@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Slab Projects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Start at</th>
+      <th>Finish at</th>
+      <th>Finished at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @slab_projects.each do |slab_project| %>
+      <tr>
+        <td><%= slab_project.name %></td>
+        <td><%= slab_project.description %></td>
+        <td><%= slab_project.status %></td>
+        <td><%= slab_project.start_at %></td>
+        <td><%= slab_project.finish_at %></td>
+        <td><%= slab_project.finished_at %></td>
+        <td><%= link_to 'Show', slab_project %></td>
+        <td><%= link_to 'Edit', edit_slab_project_path(slab_project) %></td>
+        <td><%= link_to 'Destroy', slab_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Slab Project', new_slab_project_path %>

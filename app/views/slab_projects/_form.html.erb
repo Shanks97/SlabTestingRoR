@@ -1,0 +1,47 @@
+<%= form_with(model: slab_project) do |form| %>
+  <% if slab_project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(slab_project.errors.count, "error") %> prohibited this slab_project from being saved:</h2>
+
+      <ul>
+        <% slab_project.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_at %>
+    <%= form.date_select :start_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :finish_at %>
+    <%= form.date_select :finish_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :finished_at %>
+    <%= form.date_select :finished_at %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

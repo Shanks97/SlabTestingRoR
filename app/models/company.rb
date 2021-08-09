@@ -1,0 +1,25 @@
+class Company < ApplicationRecord
+    RISK_FACTORS = [
+        "LOW", "MEDIUM", "HIGH"
+    ]
+
+    validates :name, presence: true, uniqueness: true
+    validates :ticker_symbol, presence: true, uniqueness: true
+    validates :risk_factor, presence: true, inclusion: { in:RISK_FACTORS }
+    #validates :name, uniqueness: true
+    validate :validate_ticker_symbol #note is VALIDATE and NOT VALIDATES
+    has_many :stock_prices
+    before_save :capitalize_ticker_symbol
+
+    def capitalize_ticker_symbol
+        self.ticker_symbol = self.ticker_symbol.upcase
+    end
+
+    def validate_ticker_symbol
+        if self.ticker_symbol.present?
+            if self.ticker_symbol.size < 2 or self.ticker_symbol.size > 4
+                self.errors.add(:ticker_symbol, "Size should be >= 2 or <= 4")
+            end
+        end
+    end
+end
